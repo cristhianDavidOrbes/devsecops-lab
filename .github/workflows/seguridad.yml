@@ -1,0 +1,20 @@
+name: DevSecOps Pipeline 
+on: [push]
+jobs: 
+  build-and-scan:
+  runs-on: ubuntu-latest
+  steps:
+    uses: actions/checkout@v3
+    name: Construir Imagen
+    run: docker Build -t mi-app-insegura:latest.
+    name: Escaneo Trivy
+    uses: aquasecurity/trivy-action@master
+    with:
+      imagen-ref: 'mi-app-insegura:latest'
+      format: 'table'
+      exit-code: '1'
+      severity: 'CRITICAL,HIGH'
+
+
+      
+
